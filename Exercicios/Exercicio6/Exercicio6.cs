@@ -36,7 +36,7 @@ namespace Exercicios
               return ValidatorAttribute.NumberGreaterThan20000(value);
 
             else
-                return true;
+                return false;
         }
        
     }

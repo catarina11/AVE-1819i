@@ -15,7 +15,7 @@ namespace Exercicios
         public static bool NumberGreaterThan20000(int number)
         {
            
-            return number>20000?  true : false;
+            return number>20000;
 
         }
     }
