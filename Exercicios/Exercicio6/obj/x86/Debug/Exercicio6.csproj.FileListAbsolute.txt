@@ -1,0 +1,6 @@
+\\Mac\Home\Documents\ISEL\2ºAno\4º Semestre\AVE\Repo_Aulas\ave-2018-19-sem1-li41n\Exercicios\Exercicio6\bin\Debug\Exercicio6.exe
+\\Mac\Home\Documents\ISEL\2ºAno\4º Semestre\AVE\Repo_Aulas\ave-2018-19-sem1-li41n\Exercicios\Exercicio6\bin\Debug\Exercicio6.pdb
+\\Mac\Home\Documents\ISEL\2ºAno\4º Semestre\AVE\Repo_Aulas\ave-2018-19-sem1-li41n\Exercicios\Exercicio6\obj\x86\Debug\Exercicio6.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\ISEL\2ºAno\4º Semestre\AVE\Repo_Aulas\ave-2018-19-sem1-li41n\Exercicios\Exercicio6\obj\x86\Debug\Exercicio6.exe
+\\Mac\Home\Documents\ISEL\2ºAno\4º Semestre\AVE\Repo_Aulas\ave-2018-19-sem1-li41n\Exercicios\Exercicio6\obj\x86\Debug\Exercicio6.pdb
+\\Mac\Home\Documents\ISEL\2ºAno\4º Semestre\AVE\Repo_Aulas\ave-2018-19-sem1-li41n\Exercicios\Exercicio6\obj\x86\Debug\Exercicio6.csprojAssemblyReference.cache
