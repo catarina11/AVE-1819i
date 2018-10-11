@@ -8,7 +8,7 @@ namespace ConsoleApp1
 {
     public class School
     {
-        
+        public string name;
         
         public School()
         {

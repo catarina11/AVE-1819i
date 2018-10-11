@@ -9,73 +9,92 @@ namespace ConsoleApp1
 {
     class FixtureReflect : IFixture
     {
-        private Random rnd = new Random();
         private Type type;
-       
+        List<GeneratorIFixture> attrsToGenerate;
         public FixtureReflect(Type type)
         {
             this.type = type;
+            attrsToGenerate = new List<GeneratorIFixture>();
+            foreach (PropertyInfo prop in type.GetProperties())
+                MapProperty(prop);
+
+            foreach (FieldInfo fld in type.GetFields())
+                MapField(fld);  
+        }
+        void MapProperty(PropertyInfo prop)
+        {
+            //verifcar que tipo é Student
+
+            /*1º caso - se é do tipo primitivo*/
+            if (prop.PropertyType.IsPrimitive)
+                attrsToGenerate.Add(new PrimitiveFixture(prop));
+
+            /*2º caso  - se é string*/
+            else if (prop.PropertyType == typeof(string))
+            {
+                attrsToGenerate.Add(new StringFixture(prop));
+            }
+
+            /*3º caso - se é complexo (referencia ou valor)*/
+            //Tipo valor - struct, enum, bool
+            else if (prop.PropertyType.IsValueType ||
+                prop.PropertyType.IsClass || prop.PropertyType.IsInterface)
+                attrsToGenerate.Add(new ComplexFixture(prop));
+
+            /*4º caso - Array*/
+            else if (prop.PropertyType.IsArray)
+            {
+                attrsToGenerate.Add(new ArrayFixture(prop));
+            }
+        }
+        void MapField(FieldInfo fld)
+        {
+            //verifcar que tipo é Student
+
+            /*1º caso - se é do tipo primitivo*/
+            if (fld.FieldType.IsPrimitive)
+                attrsToGenerate.Add(new PrimitiveFixture(fld));
+
+            /*2º caso  - se é string*/
+            else if (fld.FieldType == typeof(string))
+                attrsToGenerate.Add(new StringFixture(fld));
+
+            /*3º caso - se é complexo (referencia ou valor)*/
+            //Tipo valor - struct, enum, bool
+            else if (fld.FieldType.IsValueType ||
+                fld.FieldType.IsClass || fld.FieldType.IsInterface)
+                attrsToGenerate.Add(new ComplexFixture(fld));
+
+            /*4º caso - Array*/
+            else if (fld.FieldType.IsArray)
+                attrsToGenerate.Add(new ArrayFixture(fld));
         }
 
         public Type TargetType => type;
 
         public object[] Fill(int size)
         {
-            return null;
+            object[] res = new object[size];
+            for (int i = 0; i < res.Length; i++)
+            {
+                res[i] = New();
+            }
+            return res;
         }
 
         public object New()
         {
-            Type j;
-            int randomValue;
-            string str;
-            Object objRef;
-            PropertyInfo[] propsInfos = type.GetProperties();
-            foreach(PropertyInfo prop in propsInfos)
+            Object obj = Activator.CreateInstance(type); //cria um Student => new Student: nr, name, school
+            foreach (GeneratorIFixture item in attrsToGenerate)
             {
-                //verifcar que tipo é Student
-
-                /*1º caso - se é do tipo primitivo*/
-                if (prop.PropertyType.IsPrimitive)
-                    randomValue = GenerateRandomValue();
-                /*2º caso  - se é string*/
-                else if (prop.PropertyType == typeof(string))
-                {
-                    str = GenerateString(rnd.Next(0, 50)); //gera um valor aleatorio no max até 50
-                }
-
-                /*3º caso - se é complexco (referencia ou valor)*/
-                //Tipo valor - struct, enum, bool
-                else if (prop.PropertyType.IsValueType ||
-                    prop.PropertyType.IsClass || prop.PropertyType.IsInterface)
-                    objRef = Activator.CreateInstance(prop.PropertyType);
-                
-                /*4º caso - Array*/
-                //else if (prop.PropertyType.IsArray)
-                //do stuff
+                item.SetValue(obj);
+           
             }
-
-            Object obj = Activator.CreateInstance(type, new object[3]); //cria um Student => new Student: nr, name, school
             return obj;
         }
 
-        private string GenerateString(int length)
-        {
-            //gera uma string aleatoria
-            const string alfa = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-            char[] randomChar = new char[length];
-            for (int i = 0; i < length; i++)
-                randomChar[i] = alfa[rnd.Next(0, alfa.Length)];
-            return new string(randomChar);
+        
 
 
-        }
-
-        public int GenerateRandomValue()
-        {
-            //gerar um valor aleatorio
-            
-            return rnd.Next();
-        }
     }
 }

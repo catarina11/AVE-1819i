@@ -2,6 +2,10 @@
 {
     public class Student
     {
+        public Student()
+        {
+
+        }
             public Student(int nr, string name, School school)
             {
                 this.Nr = nr;
