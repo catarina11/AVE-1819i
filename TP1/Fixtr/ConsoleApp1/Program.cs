@@ -10,10 +10,11 @@ namespace ConsoleApp1
     {
         public static void Main()
         {
-            IFixture fix = new FixtureReflect(typeof(Student));
+            //IFixture fix = new FixtureReflect(typeof(Student));
+            //Student s1 = (Student)fix.New();
+            //Student s2 = (Student)fix.New();
+            IFixture fix = new FixtureReflect(typeof(Student)).Member("Address").Member("naturality");
             Student s1 = (Student)fix.New();
-            Student s2 = (Student)fix.New();
-            
         }
     }
 

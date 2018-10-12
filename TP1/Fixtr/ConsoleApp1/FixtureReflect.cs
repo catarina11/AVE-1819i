@@ -20,7 +20,25 @@ namespace ConsoleApp1
 
             foreach (FieldInfo fld in type.GetFields())
                 MapField(fld);  
+
         }
+
+        public FixtureReflect Member(string v)
+        {
+            string x;
+            foreach (PropertyInfo prop in type.GetProperties())
+                if (prop.Name == v)
+                    MapProperty(prop);
+
+
+            foreach (FieldInfo fld in type.GetFields())
+                if (fld.Name == v)
+                    MapField(fld);
+
+
+            return new FixtureReflect(type);
+        }
+
         void MapProperty(PropertyInfo prop)
         {
             //verifcar que tipo é Student
