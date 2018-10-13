@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public class Address
+    public struct Address
     {
+        public string Street;
+        public string PostalCode;
+        public int Nr;
+
     }
 }
