@@ -1,0 +1,9 @@
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\obj\Debug\netcoreapp2.1\Fixtr.csprojAssemblyReference.cache
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\obj\Debug\netcoreapp2.1\Fixtr.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\obj\Debug\netcoreapp2.1\Fixtr.AssemblyInfoInputs.cache
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\obj\Debug\netcoreapp2.1\Fixtr.AssemblyInfo.cs
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\bin\Debug\netcoreapp2.1\Fixtr.deps.json
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\bin\Debug\netcoreapp2.1\Fixtr.dll
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\bin\Debug\netcoreapp2.1\Fixtr.pdb
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\obj\Debug\netcoreapp2.1\Fixtr.dll
+\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\Fixtr\obj\Debug\netcoreapp2.1\Fixtr.pdb
