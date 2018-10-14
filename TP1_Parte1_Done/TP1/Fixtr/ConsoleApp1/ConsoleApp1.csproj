@@ -45,8 +45,8 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="ArrayFixture.cs" />
+    <Compile Include="FixtureDateTime.cs" />
     <Compile Include="ComplexFixture.cs" />
-    <Compile Include="DefaultFixture.cs" />
     <Compile Include="FixtureReflect.cs" />
     <Compile Include="GeneratorIFixture.cs" />
     <Compile Include="IFixture.cs" />

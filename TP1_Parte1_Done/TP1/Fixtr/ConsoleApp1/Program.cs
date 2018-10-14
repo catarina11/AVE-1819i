@@ -13,8 +13,9 @@ namespace ConsoleApp1
             IFixture fix = new FixtureReflect(typeof(Student));
             Student s1 = (Student)fix.New();
            
-            Student s2 = (Student)fix.New();
-            
+            IFixture newFix = new FixtureReflect(typeof(Student)).Member("Addr").Member("naturality");
+            Student s2 = (Student)newFix.New();
+            var x = 0;
         }
     }
 

@@ -8,24 +8,12 @@ using System.Reflection;
 namespace ConsoleApp1
 {
 
-
     public abstract class GeneratorIFixture : IFixture
     {
-
-        protected PropertyInfo p;
-        protected FieldInfo f;
         protected readonly Type t;
-        public GeneratorIFixture(PropertyInfo p)
+        public GeneratorIFixture(Type t)
         {
-            this.p = p;
-            t = p.PropertyType;
-            f = null;
-        }
-        public GeneratorIFixture(FieldInfo f)
-        {
-            this.f = f;
-            t = f.FieldType;
-            this.p = null;
+            this.t = t;
         }
 
         public Type TargetType { get => t; }
@@ -41,18 +29,28 @@ namespace ConsoleApp1
         }
         public abstract object New();
 
-        public void SetValue(Object target)
+        public void SetValue(PropertyInfo p, Object target)
+        {
+           object o = New();
+           p.SetValue(target, o);
+        }
+
+        public void SetValue(FieldInfo f, Object target)
         {
             object o = New();
-            if (p != null)
-            {
-                p.SetValue(target, o);
-            }
-            if(f != null)
-            {
-                f.SetValue(target, o);
-            }
+            f.SetValue(target, o);
+        }
 
+        public abstract IFixture Member(string v);
+
+        public IFixture Member(string name, params object[] pool)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFixture Member(string name, IFixture fixt)
+        {
+            throw new NotImplementedException();
         }
     }
 }

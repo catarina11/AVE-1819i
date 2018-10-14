@@ -1,15 +1,18 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace ConsoleApp1
 {
     internal class ComplexFixture : GeneratorIFixture
     {
-        public ComplexFixture(PropertyInfo p) : base(p)
+        public ComplexFixture(Type t): base(t)
         {
+
         }
 
-        public ComplexFixture(FieldInfo f) : base(f)
+        public override IFixture Member(string v)
         {
+            throw new NotImplementedException();
         }
 
         public override object New()

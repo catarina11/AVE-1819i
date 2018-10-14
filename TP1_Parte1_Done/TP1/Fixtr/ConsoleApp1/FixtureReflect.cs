@@ -10,140 +10,145 @@ namespace ConsoleApp1
     class FixtureReflect : IFixture
     {
         private Type type;
-        List<GeneratorIFixture> attrsToGenerate;
+        List<GeneratorIFixture> ConstructorParams;
+        List<Box> MemberParams;
+        public Type TargetType => type;
+        Random rnd = new Random();
+
         public FixtureReflect(Type type)
         {
             this.type = type;
-            attrsToGenerate = new List<GeneratorIFixture>();
+            ConstructorParams = new List<GeneratorIFixture>();
+            MemberParams = new List<Box>();
 
-            var ctors = type.GetConstructors();
+            ConstructorInfo[] ctors = type.GetConstructors();
             // assuming class Student has two ctors and position 0 is ctor given
-            var ctor = ctors[0];
-            var ctorParameters = ctor.GetParameters();
-         
+            ConstructorInfo ctor = ctors[rnd.Next(ctors.Length)];
+
+            ParameterInfo[] ctorParameters = ctor.GetParameters();
+
             //bool notFound = false;
 
-            foreach (PropertyInfo prop in type.GetProperties())
+            foreach (ParameterInfo param in ctorParameters)
             {
-                MapProperty(prop, ctorParameters);
+                GeneratorIFixture g = MapType(param.ParameterType);
+                ConstructorParams.Add(g);
             }
-                
-            foreach (FieldInfo fld in type.GetFields())
-                MapField(fld, ctorParameters);  
-                
         }
-        bool found=false;
-        void MapProperty(PropertyInfo prop, ParameterInfo[] ctor)
+
+
+        GeneratorIFixture MapType(Type paramType)
         {
-            for (int i = 0; i < ctor.Length; ++i)
-            {
-                if (ctor[i].Name.ToUpper() == prop.Name.ToUpper())
-                {
-                    found = true;
+            if (paramType.IsPrimitive)
+                return new PrimitiveFixture(paramType);
+            /*2º caso  - se é string*/
+            else if (paramType == typeof(string))
+                return new StringFixture(paramType);
 
-                    //verifcar que tipo é Student
+            /*3º caso - se é complexo (referencia ou valor)*/
+            //Tipo valor - struct, enum, bool
+            else if (paramType.IsValueType ||
+                paramType.IsClass || paramType.IsInterface)
+                return new ComplexFixture(paramType);
 
-                    /*1º caso - se é do tipo primitivo*/
-                    if (prop.PropertyType.IsPrimitive)
-                        attrsToGenerate.Add(new PrimitiveFixture(prop));
-
-                    /*2º caso  - se é string*/
-                    else if (prop.PropertyType == typeof(string))
-                        attrsToGenerate.Add(new StringFixture(prop));
-
-                    /*3º caso - se é complexo (referencia ou valor)*/
-                    //Tipo valor - struct, enum, bool
-                    else if (prop.PropertyType.IsValueType ||
-                        prop.PropertyType.IsClass || prop.PropertyType.IsInterface)
-                        attrsToGenerate.Add(new ComplexFixture(prop));
-
-                    /*4º caso - Array*/
-                    else if (prop.PropertyType.IsArray)
-                        attrsToGenerate.Add(new ArrayFixture(prop));
-
-                    break;
-
-                }
-                else
-                {
-                    if (i == ctor.Length - 1 && found == false)
-                    {
-                        attrsToGenerate.Add(new DefaultFixture(prop));
-
-                    }
-                    found = false;
-                    continue;
-                }
-            }
-
-            
-           
-        }
-
-        void MapField(FieldInfo fld, ParameterInfo[] ctor)
-        {
-            for (int i = 0; i < ctor.Length; ++i)
-            {
-                if (ctor[i].Name.ToUpper() == fld.Name.ToUpper())
-                {
-                    found = true;
-                    //verifcar que tipo é Student
-
-                    /*1º caso - se é do tipo primitivo*/
-                    if (fld.FieldType.IsPrimitive)
-                        attrsToGenerate.Add(new PrimitiveFixture(fld));
-
-                    /*2º caso  - se é string*/
-                    else if (fld.FieldType == typeof(string))
-                        attrsToGenerate.Add(new StringFixture(fld));
-
-                    /*3º caso - se é complexo (referencia ou valor)*/
-                    //Tipo valor - struct, enum, bool
-                    else if (fld.FieldType.IsValueType ||
-                        fld.FieldType.IsClass || fld.FieldType.IsInterface)
-                        attrsToGenerate.Add(new ComplexFixture(fld));
-
-                    /*4º caso - Array*/
-                    else if (fld.FieldType.IsArray)
-                        attrsToGenerate.Add(new ArrayFixture(fld));
-                    break;
-                }
-                else
-                {
-                    if (i == ctor.Length - 1 && found == false)
-                    {
-                        attrsToGenerate.Add(new DefaultFixture(fld));
-
-                    }
-                    found = false;
-                    continue;
-                }
-            }
+            /*4º caso - Array*/
+            else if (paramType.IsArray)
+                return new ArrayFixture(paramType);
+            else return null;
         }
 
 
-
-        public Type TargetType => type;
 
         public object[] Fill(int size)
         {
             object[] res = new object[size];
             for (int i = 0; i < res.Length; i++)
             {
-                res[i] = New();
+                res[i] = this.New();
             }
             return res;
         }
 
         public object New()
         {
-            Object obj = Activator.CreateInstance(type); //cria um Student => new Student: nr, name, school
-            foreach (GeneratorIFixture item in attrsToGenerate)
-            {
-                item.SetValue(obj);
-           
-            }
+            object[] p = new object[ConstructorParams.Count];
+
+            for (int i = 0; i < p.Length; i++)
+                p[i] = ConstructorParams[i].New();
+
+            Object obj = Activator.CreateInstance(type,p); //cria um Student => new Student: nr, name, school
+
+            foreach(Box b in MemberParams)
+                b.SetValue(obj);
+
             return obj;
         }
+
+        public IFixture Member(string nm)
+        {
+            PropertyInfo p = type.GetProperty(nm);
+            if (p != null)
+            {
+                GeneratorIFixture g = MapType(p.PropertyType);
+                MemberParams.Add(new Box(p, g));
+                return this;
+            }
+            FieldInfo f = type.GetField(nm);
+            if (f != null)
+            {
+                GeneratorIFixture g = MapType(f.FieldType);
+                MemberParams.Add(new Box(f, g));
+                return this;
+            }
+
+            return this;
+        }
+
+        public IFixture Member(string name, params object[] pool)
+        {
+            
+            object[] rand = new object [pool.Length];
+            for (int i = 0; i < rand.Length; i++)
+                rand[i] = rand[rnd.Next(0, pool.Length)];
+            return this;
+        }
+
+        public IFixture Member(string name, IFixture fixt)
+        {
+            throw new NotImplementedException();
+        }
     }
+public class Box
+{
+    GeneratorIFixture g;
+    PropertyInfo p;
+    FieldInfo f;
+
+    public Box(PropertyInfo p, GeneratorIFixture g) : this(g)
+    {
+        this.p = p;
+        this.f = null;
+    }
+    public Box(FieldInfo f, GeneratorIFixture g) : this(g)
+    {
+        this.p = null;
+        this.f = f;
+    }
+    public Box(GeneratorIFixture g)
+    {
+        this.g = g;
+    }
+
+    public void SetValue(Object target)
+    {
+        if (p != null)
+            g.SetValue(p, target);
+        else
+            g.SetValue(f, target);
+    }
+
 }
+}
+
+    
+

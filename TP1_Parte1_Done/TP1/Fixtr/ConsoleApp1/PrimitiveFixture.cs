@@ -7,26 +7,29 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-
-
-
     class PrimitiveFixture : GeneratorIFixture
     {
         Random rnd = new Random();
-        public PrimitiveFixture(PropertyInfo p) : base(p){}
+        public PrimitiveFixture(Type t) : base(t)
+        {
 
-        public PrimitiveFixture(FieldInfo f) : base(f){}
+        }
+
+        public override IFixture Member(string v)
+        {
+            throw new NotImplementedException();
+        }
 
         public override object New()
         {
             object ret=null;
-            if (p.PropertyType == typeof(int))
+            if (t == typeof(int))
                 ret = rnd.Next();
 
-            else if (p.PropertyType == typeof(char))
+            else if (t == typeof(char))
                 ret = RandomChar();
 
-            else if (p.PropertyType == typeof(double))
+            else if (t == typeof(double))
                 ret = rnd.NextDouble();
 
             return ret;

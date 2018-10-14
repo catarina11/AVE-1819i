@@ -6,23 +6,19 @@ namespace ConsoleApp1
     internal class ArrayFixture : GeneratorIFixture
     {
         Random rnd = new Random();
-        public ArrayFixture(PropertyInfo p) : base(p)
+        public ArrayFixture(Type t) : base(t)
         {
-       
-        }
 
-        public ArrayFixture(FieldInfo f) : base(f)
-        {
         }
 
         public new object[] Fill(int size)
         {
             if (TargetType.IsPrimitive)
-                return new PrimitiveFixture(p).Fill(size);
+                return new PrimitiveFixture(t).Fill(size);
 
             else if (TargetType == typeof(string))
             {
-                return new StringFixture(p).Fill(size);
+                return new StringFixture(t).Fill(size);
 
             }
 
@@ -30,9 +26,14 @@ namespace ConsoleApp1
             //Tipo valor - struct, enum, bool
             else if (TargetType.IsValueType ||
                 TargetType.IsClass || TargetType.IsInterface)
-                return new ComplexFixture(p).Fill(size);
+                return new ComplexFixture(t).Fill(size);
 
             else return null;
+        }
+
+        public override IFixture Member(string v)
+        {
+            throw new NotImplementedException();
         }
 
         public override object New()
@@ -40,17 +41,19 @@ namespace ConsoleApp1
             throw new System.NotImplementedException();
         }
 
-        public new void SetValue(Object target)
+        public new void SetValue(PropertyInfo p, Object target)
         {
             object [] o = Fill(rnd.Next());
-            if (p != null)
-            {
-                p.SetValue(target, o);
-            }
-            if (f != null)
-            {
-                f.SetValue(target, o);
-            }
+            
+            p.SetValue(target, o);
+
+        }
+
+        public new void SetValue(FieldInfo f, Object target)
+        {
+            object[] o = Fill(rnd.Next());
+
+            f.SetValue(target, o);
 
         }
     }

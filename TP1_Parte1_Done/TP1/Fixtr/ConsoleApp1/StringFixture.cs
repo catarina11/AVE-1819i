@@ -6,12 +6,15 @@ namespace ConsoleApp1
     internal class StringFixture : GeneratorIFixture
     {
         Random rnd = new Random();
-        public StringFixture(PropertyInfo p) : base(p)
+
+        public StringFixture(Type t) : base(t)
         {
+
         }
-        public StringFixture(FieldInfo p) : base(p)
+
+        public override IFixture Member(string v)
         {
-                
+            throw new NotImplementedException();
         }
 
         public override object New()
