@@ -26,5 +26,20 @@ namespace ConsoleApp1
                 arr[i] = New();
             return arr;
         }
+
+        public IFixture Member(string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFixture Member(string name, params object[] pool)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFixture Member(string name, IFixture fixt)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

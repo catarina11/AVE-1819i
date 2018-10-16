@@ -12,6 +12,7 @@ namespace ConsoleApp1
         private Type type;
         List<GeneratorIFixture> ConstructorParams;
         List<Box> MemberParams;
+        
         public Type TargetType => type;
         Random rnd = new Random();
 
@@ -20,14 +21,13 @@ namespace ConsoleApp1
             this.type = type;
             ConstructorParams = new List<GeneratorIFixture>();
             MemberParams = new List<Box>();
+       
 
             ConstructorInfo[] ctors = type.GetConstructors();
             // assuming class Student has two ctors and position 0 is ctor given
             ConstructorInfo ctor = ctors[rnd.Next(ctors.Length)];
 
             ParameterInfo[] ctorParameters = ctor.GetParameters();
-
-            //bool notFound = false;
 
             foreach (ParameterInfo param in ctorParameters)
             {
@@ -57,8 +57,6 @@ namespace ConsoleApp1
             else return null;
         }
 
-
-
         public object[] Fill(int size)
         {
             object[] res = new object[size];
@@ -71,16 +69,19 @@ namespace ConsoleApp1
 
         public object New()
         {
-            object[] p = new object[ConstructorParams.Count];
+            object[] p = new object[ConstructorParams.Count]; //Cria um object[] com o tamanho do numero de params do ctor
 
             for (int i = 0; i < p.Length; i++)
-                p[i] = ConstructorParams[i].New();
+            {
+                    p[i] = ConstructorParams[i].New(); //new de cada tipo 
+            }
+                
 
             Object obj = Activator.CreateInstance(type,p); //cria um Student => new Student: nr, name, school
 
-            foreach(Box b in MemberParams)
+            foreach (Box b in MemberParams)
                 b.SetValue(obj);
-
+           
             return obj;
         }
 
@@ -90,14 +91,14 @@ namespace ConsoleApp1
             if (p != null)
             {
                 GeneratorIFixture g = MapType(p.PropertyType);
-                MemberParams.Add(new Box(p, g));
+                MemberParams.Add(new Box(p, g, null));
                 return this;
             }
             FieldInfo f = type.GetField(nm);
             if (f != null)
             {
                 GeneratorIFixture g = MapType(f.FieldType);
-                MemberParams.Add(new Box(f, g));
+                MemberParams.Add(new Box(f, g, null));
                 return this;
             }
 
@@ -106,13 +107,26 @@ namespace ConsoleApp1
 
         public IFixture Member(string name, params object[] pool)
         {
-            
-            object[] rand = new object [pool.Length];
-            for (int i = 0; i < rand.Length; i++)
-                rand[i] = rand[rnd.Next(0, pool.Length)];
+            PropertyInfo p = type.GetProperty(name);
+            if (p != null)
+            {
+                GeneratorIFixture g = MapType(p.PropertyType);
+                MemberParams.Add(new Box(p, g, pool));
+                return this;
+            }
+            FieldInfo f = type.GetField(name);
+            if (f != null)
+            {
+                GeneratorIFixture g = MapType(f.FieldType);
+                MemberParams.Add(new Box(f, g, pool));
+                return this;
+            }
+
+
             return this;
         }
 
+       
         public IFixture Member(string name, IFixture fixt)
         {
             throw new NotImplementedException();
@@ -123,16 +137,20 @@ public class Box
     GeneratorIFixture g;
     PropertyInfo p;
     FieldInfo f;
+    Object[] obj;
 
-    public Box(PropertyInfo p, GeneratorIFixture g) : this(g)
+    public Box(PropertyInfo p, GeneratorIFixture g, Object[] obj) : this(g)
     {
         this.p = p;
         this.f = null;
+        this.obj = obj; //parte 3 array random
+
     }
-    public Box(FieldInfo f, GeneratorIFixture g) : this(g)
+    public Box(FieldInfo f, GeneratorIFixture g, Object[] obj) : this(g)
     {
         this.p = null;
         this.f = f;
+        this.obj = obj;
     }
     public Box(GeneratorIFixture g)
     {
@@ -141,13 +159,12 @@ public class Box
 
     public void SetValue(Object target)
     {
-        if (p != null)
-            g.SetValue(p, target);
-        else
-            g.SetValue(f, target);
+            if (p != null)
+                g.SetValue(p, target, obj);
+            else if (f != null && obj == null)
+                g.SetValue(f, target, obj);
+        }
     }
-
-}
 }
 
     

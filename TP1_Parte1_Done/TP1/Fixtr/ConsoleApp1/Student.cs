@@ -3,12 +3,12 @@
     public class Student
     {
        
-            public Student(int nr, string name, School school)
-            {
-                this.Nr = nr;
-                this.Name = name;
-                this.School = school;
-            }
+        public Student(int nr, string name, School school)
+        {
+            this.Nr = nr;
+            this.Name = name;
+            this.School = school;
+        }
         public Student()
         {
 

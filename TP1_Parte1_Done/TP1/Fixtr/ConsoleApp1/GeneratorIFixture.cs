@@ -10,6 +10,7 @@ namespace ConsoleApp1
 
     public abstract class GeneratorIFixture : IFixture
     {
+        Random rnd = new Random();
         protected readonly Type t;
         public GeneratorIFixture(Type t)
         {
@@ -29,13 +30,17 @@ namespace ConsoleApp1
         }
         public abstract object New();
 
-        public void SetValue(PropertyInfo p, Object target)
+        public void SetValue(PropertyInfo p, Object target, object[] obj)
         {
-           object o = New();
-           p.SetValue(target, o);
+           Object o;
+           if (obj.GetType() == typeof(Object[]))
+               o = generateValueRandomOfArray(obj);
+            else
+                o = New();
+            p.SetValue(target, o);  
         }
 
-        public void SetValue(FieldInfo f, Object target)
+        public void SetValue(FieldInfo f, Object target, object[] obj)
         {
             object o = New();
             f.SetValue(target, o);
@@ -51,6 +56,14 @@ namespace ConsoleApp1
         public IFixture Member(string name, IFixture fixt)
         {
             throw new NotImplementedException();
+        }
+
+        private object generateValueRandomOfArray(object[] pool)
+        {
+            //gerar valor random do array pool
+            Object obj = new object();
+            obj = pool[rnd.Next(0, pool.Length)];
+            return obj;
         }
     }
 }

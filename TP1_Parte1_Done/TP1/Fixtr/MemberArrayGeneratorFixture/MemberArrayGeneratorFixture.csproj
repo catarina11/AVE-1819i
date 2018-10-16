@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{71F5FC45-C3D8-4DBD-8B9E-63FC840945D9}</ProjectGuid>
+    <ProjectGuid>{7DEA55A3-6DC1-44CB-A6B1-1DB65E8E8038}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ConsoleApp1</RootNamespace>
-    <AssemblyName>ConsoleApp1</AssemblyName>
+    <RootNamespace>MemberArrayGeneratorFixture</RootNamespace>
+    <AssemblyName>MemberArrayGeneratorFixture</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,21 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
-    <Compile Include="ArrayFixture.cs" />
-    <Compile Include="Dictionary.cs" />
-    <Compile Include="FixtureDateTime.cs" />
-    <Compile Include="ComplexFixture.cs" />
-    <Compile Include="FixtureReflect.cs" />
-    <Compile Include="GeneratorIFixture.cs" />
-    <Compile Include="IFixture.cs" />
-    <Compile Include="MemberArrayGeneratorFixture.cs" />
-    <Compile Include="PrimitiveFixture.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="School.cs" />
-    <Compile Include="StringFixture.cs" />
-    <Compile Include="Student.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
