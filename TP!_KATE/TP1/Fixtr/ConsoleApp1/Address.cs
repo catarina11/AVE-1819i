@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    public class Address
+    public struct Address
+    {
+        public string Street;
+        public string PostalCode;
+        public int Nr;
+
+        public Address(string street, string postalCode, int nr)
+        {
+            this.Street = street;
+            this.PostalCode = postalCode;
+            this.Nr = nr;
+        }
+    }
+
+    /*public class Address
     {
         public Address()
         {
@@ -18,6 +32,7 @@ namespace ConsoleApp1
             this.Code = code;
             this.Local = local;
         }
+        
         public string Addr { get; set; }
         public string Code { get; set; }
 
@@ -25,5 +40,5 @@ namespace ConsoleApp1
 
         public string Country;
           
-    }
+    }*/
 }

@@ -32,7 +32,7 @@ namespace ConsoleApp1
         public string naturality;
 
         //Case eng
-        public int[] array { get; set; }
+        //public int[] array { get; set; }
 
         //Added field for part3 
         [Validation("CheckDateIsGreaterThan1980")]

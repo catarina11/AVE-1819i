@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class DateValidator
+    public class DateValidator
     {
         public static bool IsValidDate(Type studentType, DateTime dt)
         {

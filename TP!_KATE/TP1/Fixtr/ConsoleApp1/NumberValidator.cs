@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class NumberValidator
+    public class NumberValidator
     {
         public static bool IsValidNumber(Type studentType, int value)
         {

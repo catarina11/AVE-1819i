@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fixtr", "Fixtr\Fixtr.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "UnitTestProject1\Tests.csproj", "{EB9DF78B-3E74-4F50-9497-C46EE9CB56D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{71F5FC45-C3D8-4DBD-8B9E-63FC840945D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixtureFixtr", "ConsoleApp1\FixtureFixtr.csproj", "{71F5FC45-C3D8-4DBD-8B9E-63FC840945D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

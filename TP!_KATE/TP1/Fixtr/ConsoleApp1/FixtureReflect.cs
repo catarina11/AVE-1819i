@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace ConsoleApp1
 {
-    class FixtureReflect : IFixture
+    public class FixtureReflect : IFixture
     {
         private Type type;
         List<GeneratorIFixture> ConstructorParams;
@@ -21,11 +21,10 @@ namespace ConsoleApp1
             this.type = type;
             ConstructorParams = new List<GeneratorIFixture>();
             MemberParams = new List<Box>();
-       
 
+            ConstructorInfo ctor;
             ConstructorInfo[] ctors = type.GetConstructors();
-            // assuming class Student has two ctors and position 0 is ctor given
-            ConstructorInfo ctor = ctors[rnd.Next(ctors.Length)];
+            ctor = ctors[rnd.Next(ctors.Length)];
 
             ParameterInfo[] ctorParameters = ctor.GetParameters();
 
