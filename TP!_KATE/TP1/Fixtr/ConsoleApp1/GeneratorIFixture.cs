@@ -20,7 +20,8 @@ namespace ConsoleApp1
 
         public Type TargetType { get => t; }
 
-        public object[] Fill(int size)
+
+       public object[] Fill(int size)
         {
             object[] res = new object[size];
             for (int i = 0; i < res.Length; i++)

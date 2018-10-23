@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class PrimitiveFixture : GeneratorIFixture
+    public class PrimitiveFixture : GeneratorIFixture
     {
         Random rnd = new Random();
         public PrimitiveFixture(Type t) : base(t)

@@ -5,7 +5,7 @@ namespace ConsoleApp1
     public class Student
     {
         
-        public Student(int nr, string name, School school)
+       /* public Student(int nr, string name, School school)
         {
             this.Nr = nr;
             this.Name = name;
@@ -14,14 +14,14 @@ namespace ConsoleApp1
         public Student()
         {
 
-        }
-       /*public Student(int nr, string name, School school, int[] array)
+        }*/
+       public Student(int nr, string name, School school, int[] array)
         {
             this.Nr = nr;
             this.Name = name;
             this.School = school;
             this.array = array;
-        }*/
+        }
 
         [Validation("CheckNumberHas5Digits")]
         public int Nr { get; set; }
@@ -32,7 +32,7 @@ namespace ConsoleApp1
         public string naturality;
 
         //Case eng
-        //public int[] array { get; set; }
+        public int[] array { get; set; }
 
         //Added field for part3 
         [Validation("CheckDateIsGreaterThan1980")]

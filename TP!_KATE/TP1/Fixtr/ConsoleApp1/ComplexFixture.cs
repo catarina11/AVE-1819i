@@ -3,10 +3,12 @@ using System.Reflection;
 
 namespace ConsoleApp1
 {
-    internal class ComplexFixture : GeneratorIFixture
+    public class ComplexFixture : GeneratorIFixture
     {
+        private readonly IFixture fix;
         public ComplexFixture(Type t): base(t)
         {
+            fix = Dictionary.GetFixture(t);
 
         }
 
@@ -17,7 +19,7 @@ namespace ConsoleApp1
 
         public override object New()
         {
-            return new FixtureReflect(TargetType).New();
+            return fix.New();
         }
     }
 }

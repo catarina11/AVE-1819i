@@ -33,38 +33,32 @@ namespace ConsoleApp1
                 GeneratorIFixture g = MapType(param.ParameterType);
                 ConstructorParams.Add(g);
             }
+
+            Dictionary.Add(type, this);
         }
 
 
         GeneratorIFixture MapType(Type paramType)
         {
+            if (paramType.IsArray)
+                return Dictionary.GetArrayGenerator(paramType);
+
             if (paramType.IsPrimitive)
-            {
-                /*4º caso - Array*/
-                if (paramType.IsArray)
-                    return new ArrayFixture(paramType);
-                else
-                    return new PrimitiveFixture(paramType);
-            }
+                return Dictionary.GetPrimitiveGenerator(paramType);
+            
                
             
             /*2º caso  - se é string*/
             else if (paramType == typeof(string))
-            {
-                if (paramType.IsArray)
-                    return new ArrayFixture(paramType);
-                else
-                    return new StringFixture(paramType);
-            }
+                return Dictionary.GetStringGenerator(paramType);
+            
                 
 
             /*3º caso - se é complexo (referencia ou valor)*/
             //Tipo valor - struct, enum, bool
             else if (paramType.IsValueType ||
                 paramType.IsClass || paramType.IsInterface)
-                return new ComplexFixture(paramType);
-
-            
+                return Dictionary.GetComplexGenerator(paramType);
 
             else return null;
         }
@@ -82,31 +76,45 @@ namespace ConsoleApp1
         public object New()
         {
             
-           Type t = TargetType;
-           IFixture fixture;
-           object[] p = new object[ConstructorParams.Count]; //Cria um object[] com o tamanho do numero de params do ctor
-
-            for(int i=0; i<p.Length; ++i)
+            Type t = TargetType;
+            object[] p = new object[ConstructorParams.Count]; //Cria um object[] com o tamanho do numero de params do ctor
+            Object obj=null;
+            Object[] auxObject;
+            for (int i=0; i<p.Length; ++i)
             {
-                IFixture fix;
-                Type paramType = ConstructorParams[i].TargetType;
-                
-                if (Dictionary.CacheMapp.TryGetValue(paramType, out fix))
-                    p[i] = fix.New();
-                else
-                    p[i] = ConstructorParams[i].New();
-            }
-            Object obj = null;
-            if (t.IsArray)
-                obj = Array.CreateInstance(TargetType, p.Length);
-            
-            else
-                obj = Activator.CreateInstance(type,p);
-            if (Dictionary.CacheMapp.TryGetValue(TargetType, out fixture))
-                Dictionary.CacheMapp[TargetType] = this;
-            else
-                Dictionary.CacheMapp.Add(TargetType, this);
+                GeneratorIFixture g = ConstructorParams[i];
+                if (g.TargetType.IsArray)
+                {
+                    Object[] param = (Object[])g.New();
+                    Array objAux = Array.CreateInstance(g.TargetType.GetElementType(), param.Length);
+                    Array.Copy(param, objAux, param.Length);
+                    p[i] = objAux;
+                }
+                else p[i] = g.New();
 
+                /*IFixture fix;
+                Type paramType = ConstructorParams[i].TargetType;
+
+                //if (Dictionary.CacheMapp.TryGetValue(paramType, out fix)) //se existe no dicionário
+                  //  p[i] = fix.New();
+                //else
+                //{
+                    p[i] = ConstructorParams[i].New(); //p[][]
+                    if (TargetType.IsArray)
+                    {
+                        //convert Object[][] to Object[]
+                        auxObject = (Object[])p[i];
+                        obj = Array.CreateInstance(TargetType.GetElementType(), auxObject.Length);
+                        Array.Copy(auxObject, (Array)obj, auxObject.Length); //e.g.Int[] 
+                        
+                    }
+                    else
+                        obj = Activator.CreateInstance(type, p);
+                //}*/
+                   
+            }
+            obj = Activator.CreateInstance(type, p);
+           
             foreach (Box b in MemberParams)
             {
                 b.SetValue(obj);

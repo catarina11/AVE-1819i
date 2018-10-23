@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ConsoleApp1
 {
-    internal class StringFixture : GeneratorIFixture
+    public class StringFixture : GeneratorIFixture
     {
         Random rnd = new Random();
 
