@@ -1,7 +1,0 @@
-\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\ConsoleApp1\bin\Debug\ConsoleApp1.exe.config
-\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\ConsoleApp1\bin\Debug\ConsoleApp1.exe
-\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\ConsoleApp1\bin\Debug\ConsoleApp1.pdb
-\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\ConsoleApp1\obj\Debug\FixtureFixtr.csprojAssemblyReference.cache
-\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\ConsoleApp1\obj\Debug\FixtureFixtr.csproj.CoreCompileInputs.cache
-\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\ConsoleApp1\obj\Debug\ConsoleApp1.exe
-\\Mac\Home\Documents\REPO\AVE-1819i\TP1\Fixtr\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
